@@ -1,9 +1,67 @@
-<html>
+<html lang = "en" ng-app="todoApp">
   <head>
     <title>Todo Application</title>
-    <script src="//cdnjs.cloudflare.com/ajax/libs/angular.js/1.3.14/angular.min.js"></script>
     <link rel="stylesheet" type="text/css" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.2/css/bootstrap.min.css">
+     <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.0/angular.min.js"></script>
+    <script src="todo.js"></script>
+    <link rel="stylesheet" type="text/css" href="css/styles.css">
   </head>
   <body>
+    <h1>Todo</h1>
+    
+    <div ng-controller="TodoListController as todoList">
+      <form name= "entryForm" ng-submit="todoList.addTodo()">
+          
+        <input name= "entry"type="text" ng-model="todoList.todoText" ng-minlength="1" required  size="30"
+               placeholder="add new todo here">
+         <span ng-show="entryForm.entry.$error.required"></span>
+          
+        <input name= "description" type="desc" ng-model="todoList.todoDesc" ng-minlength="1" required class="form-control" id ="exampleTextarea" rows="3">
+        <span ng-show="entryForm.description.$error.required"></span>
+
+
+        <input name="time" type="date"ng-model="dateString" ng-minlength="1" required class="form-control"  >
+        <span ng-show="entryForm.date.$error.required"></span>
+        
+        <input class="btn-primary" type="submit" value="add">
+            
+        <input class="btn-primary" type="button" value="Order By Title" ng-click="orderBy">
+    
+        <input class="btn-primary" type="submit" value="add">
+    
+        <div class="input-group">
+            <span class="input-group-btn">
+                <button class="btn btn-Warning" type="button">Search</button>
+            </span>
+            <input type="search" class="form-control" placeholder="Search" ng-model="todoSearch">
+        </div> 
+
+      </form>
+
+
+      <span>{{todoList.remaining()}} of {{todoList.todos.length}} remaining</span>
+      [ <a href="" ng-click="todoList.archive()">Delete Completed</a> ]
+      <ul class="unstyled">
+        <li class="todoTask" ng-repeat="todo in todoList.todos| filter :todoSearch | orderBy: 'text'">
+          <label class="checkbox">
+            <input type="checkbox" ng-model="todo.done">
+            <div class="card">
+              <div class="card-header">
+                    <span class="done-{{todo.done}}">{{todo.text}}</span>
+                </div>
+              <div class="card-block">
+                <p class="card-text">{{todo.desc}}</p>
+                <p class="card-text">{{dateString| date: "yyyy-MM-dd"}}</p>
+                <a class="btn btn-primary">Done</a>
+              </div>
+            </div>          
+            </label>
+            
+
+            
+          </li>
+      </ul>
+
+    </div>
   </body>
 </html>
