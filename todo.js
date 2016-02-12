@@ -28,6 +28,7 @@ angular.module('todoApp', [])
     };
   });
 
+$filter('todoOrder')(todoList.todos, expression, reverse)
 
 function MainCtrl($scope, dateFilter) {
     $scope.date = new Date();
